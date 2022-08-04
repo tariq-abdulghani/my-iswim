@@ -1,0 +1,18 @@
+
+outer(x:number, y:number) number:
+    doNothing()
+    inner(x:number, y:number) number:
+        doNothing()
+        inner_inner(x:number, y:number) number:
+            doNothing()
+    ret a
+ret b
+
+
+foo():
+    while(cond):
+        pass
+
+
+foo2():
+    pass
