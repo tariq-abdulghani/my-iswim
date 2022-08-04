@@ -1,26 +1,22 @@
 
-outer(x,y) number:
+fun outer(x,y):
     pass
-    inner(u,v) number:
+    fun inner(u,v):
         pass
-        inner_inner(w,z) number:
+        fun inner_inner(w,z):
             pass
     ret a
-ret b
 
-
-
-foo():
+fun foo():
     while(cond):
         pass
 
-
-foo2():
+fun foo2():
     pass
 
-outer:
+fun outer:
     x
-    inner:
+    fun inner:
         x
     y
 

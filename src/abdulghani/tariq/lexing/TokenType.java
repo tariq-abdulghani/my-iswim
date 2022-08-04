@@ -1,11 +1,15 @@
 package abdulghani.tariq.lexing;
 
 public enum TokenType {
-
-    INT("int"),
-    REAL("real"),
+    // literals
     NUMBER("number"),
-
+    STRING("string"),
+    TRUE("true"),
+    FALSE("false"),
+    NONE("none"),
+//---------------------
+    LET("let"),
+    FUN("fun"),
     ID("ID"),
 
     L_PAREN("("),
@@ -16,18 +20,49 @@ public enum TokenType {
     SQ_R_BRACKET("]"),
     COLON(":"),
     COMMA(","),
+//  operators
     PLUS("+"),
     MINUS("-"),
     TIMES("*"),
     SLASH("/"),
     MODULUS("%"),
-    EOI("\0"),
+
+    ASSIGN(":="),
+
+    LOGIC_AND("and"),
+    LOGIC_OR("or"),
+    LOGIC_NOT("not"),
+    IN("in"),
+
+    EQUAL("="),
+    LESS_EQUAL("<="),
+    LESS("<"),
+    LARGE_EQUAL(">="),
+    LARGE(">"),
+    NOT_EQUAL("~="),
+
+//    control
+    IF("if"),
+    ELIF("elif"),
+    ELSE("else"),
+    FOR("for"),
+    WHILE("while"),
+    TRY("try"),
+    CATCH("catch"),
+    RETURN("ret"),
+
+//--------------
+    EOI("\0"), // why we defined it?
     INDENT("INDENT"),
     DEDENT("DEDENT");
 
-    private String val;
+    private String value;
 
     TokenType(String v){
-        this.val = v;
+        this.value = v;
+    }
+
+    public String getValue() {
+        return value;
     }
 }
