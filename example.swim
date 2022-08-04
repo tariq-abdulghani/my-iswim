@@ -1,12 +1,13 @@
 
-outer(x:number, y:number) number:
-    doNothing()
-    inner(x:number, y:number) number:
-        doNothing()
-        inner_inner(x:number, y:number) number:
-            doNothing()
+outer(x,y) number:
+    pass
+    inner(u,v) number:
+        pass
+        inner_inner(w,z) number:
+            pass
     ret a
 ret b
+
 
 
 foo():
@@ -16,3 +17,11 @@ foo():
 
 foo2():
     pass
+
+outer:
+    x
+    inner:
+        x
+    y
+
+asd

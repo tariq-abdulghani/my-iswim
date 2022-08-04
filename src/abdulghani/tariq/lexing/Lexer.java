@@ -1,7 +1,6 @@
 package abdulghani.tariq.lexing;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Lexer {
@@ -28,7 +27,7 @@ public class Lexer {
         this.code = code;
     }
 
-    public List<Token> lex(){
+    public List<Token> lex() throws Exception {
         while (!isEmpty()){
             startIndex = currentIndex;
             scanToken();
@@ -59,13 +58,14 @@ public class Lexer {
 
     // match
     private boolean match(char c){
+        if(isEmpty()) return false;
         return c == code.charAt(currentIndex);
     }
 
     // functional methods
 
     // scan token
-    private  void scanToken(){
+    private  void scanToken() throws Exception {
         char c = advance();
         switch (c){
             case '(': addToken(TokenType.L_PAREN, lineNumber);break;
@@ -90,11 +90,19 @@ public class Lexer {
             case '%': addToken(TokenType.MODULUS, lineNumber);break;
 
             case ' ': break;
-            case '\t': break;
+//            case '\t': break;
 
-            // if next char is also new line
+
             // we must close all open blocks by inserting enough 'DEDENT' tokens
-            case '\n': lineNumber++; break;
+            case '\n':
+                lineNumber++;
+                if(!match(' ')){  // if next char is also not space we must close all scopes if we are in scope
+                    dedentAfterNewLine();
+                }
+                if(match(' ')){ // if next is space we need to check for indentation
+                    indent();
+                }
+            ;break;
 
             case '\0': addToken(TokenType.EOI, lineNumber);break;
             default:
@@ -132,46 +140,43 @@ public class Lexer {
 
     private void indent() throws Exception {
         if(insideBlock ){
-            int spaceCount = 1;
+            int spaceCount = 0;
             for (int i = currentIndex; code.charAt(i) == ' '; i++) {
                 advance();
                 spaceCount++;
             }
+            // init number of spaces per indentation leve
             if(numberOfSpacesPerLevel == 0) numberOfSpacesPerLevel = spaceCount;
 
-            if(spaceCount% numberOfSpacesPerLevel == 0){
+            if(spaceCount % numberOfSpacesPerLevel == 0){
                 int indentationLevel = spaceCount/numberOfSpacesPerLevel;
-
-                if(indentationLevel > this.indentationLevel){
-                    this.indentationLevel = indentationLevel;
+                // if no changes in indentation level
+                if(indentationLevel - this.indentationLevel ==0) return;
+                // if level increased by 1
+                else if(indentationLevel - this.indentationLevel == 1){
+                    this.indentationLevel++;
                     addToken(TokenType.INDENT, lineNumber);
                 }
-
-                if(indentationLevel < this.indentationLevel){
-                    this.indentationLevel = indentationLevel;
+                // if level decreased by 1
+                else if(indentationLevel - this.indentationLevel == -1){
+                    this.indentationLevel--;
                     addToken(TokenType.DEDENT, lineNumber);
+                    if(indentationLevel ==0) insideBlock = false;
                 }
             }else{
-                throw new Exception("invalid indentation level  number of spaces must be integral multiplier of " + numberOfSpacesPerLevel);
+                throw new Exception("invalid indentation level  space count '"+ spaceCount +
+                        "' is not  integral multiplier of " + numberOfSpacesPerLevel + " at " + lineNumber);
             }
         }
     }
+
+    private void dedentAfterNewLine(){
+        if(insideBlock){
+            for (int i = 0; i < indentationLevel; i++) {
+                addToken(TokenType.DEDENT, lineNumber);
+            }
+            indentationLevel = 0;
+            insideBlock = false;
+        }
+    }
 }
-
-//                int index = currentIndex;
-//                while (code.charAt(index) == ' '){
-//                    advance();
-//                    index++;
-//                    spaceCount++;
-//                }
-
-
-// init spaces per level
-//            if(numberOfSpacesPerLevel == 0){
-//                int spaceCount = 1;
-//                for (int i = currentIndex; code.charAt(i) == ' '; i++) {
-//                    advance();
-//                    spaceCount++;
-//                }
-//                numberOfSpacesPerLevel = spaceCount;
-//            }
