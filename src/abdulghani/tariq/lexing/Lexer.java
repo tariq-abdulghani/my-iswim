@@ -17,10 +17,13 @@ public class Lexer {
 
     private List<Token> tokens = new ArrayList<>();
 
-    private char[] noneIdChars = new char[]{
-            '.', '-', '+', '#', '&',
-            '<', '>', ',', '%', '^',
-            '\\', '/', '(', ')', ':'};
+//    when converting array of primitives to list using Arrays.asList() it has problematic effect
+//    to avoid that problems i use string and
+//    private char[] noneIdChars = new char[]{
+//            '.', '-', '+', '#', '&',
+//            '<', '>', ',', '%', '^',
+//            '\\', '/', '(', ')', ':'};
+    private String notInIdentifier = ".-+#&<>,%^\\*/():;";
     public Lexer(String code) {
         this.code = code;
     }
@@ -49,7 +52,9 @@ public class Lexer {
     }
 
     private char currentChar(){
-        return code.charAt(currentIndex);
+        if(!isEmpty()){ // why do we check??
+            return  code.charAt(currentIndex);
+        }else return '\0';
     }
 
     // match
@@ -72,7 +77,10 @@ public class Lexer {
             case '[': addToken(TokenType.SQ_L_BRACKET, lineNumber);break;
             case ']': addToken(TokenType.SQ_R_BRACKET, lineNumber);break;
 
-            case ':': addToken(TokenType.COLON, lineNumber);break; // may be a start of block
+            case ':':
+                addToken(TokenType.COLON, lineNumber);
+                if(match('\n')) insideBlock = true;
+                break; // may be a start of block
             case ',': addToken(TokenType.COMMA, lineNumber);break;
 
             case '+': addToken(TokenType.PLUS, lineNumber);break;
@@ -111,15 +119,59 @@ public class Lexer {
 
     private Token identifier(){
         // not empty and not in special chars and not white space
-
+        // parsers responsibility is t check the grammar here we only scan for tokens
         while (!isEmpty()
-                &&( !Arrays.asList(noneIdChars).contains(currentChar())
-                    && !Character.isWhitespace(currentChar()))
+                &&( notInIdentifier.indexOf(currentChar()) == -1
+                    && !Character.isWhitespace(currentChar())
+        )
         ){
             advance();
         }
-        if(!Arrays.asList(noneIdChars).contains(currentChar())){
-            return new Token(TokenType.ID, lineNumber, code.substring(startIndex,currentIndex));
-        }else return null;
+        return new Token(TokenType.ID, lineNumber, code.substring(startIndex,currentIndex));
+    }
+
+    private void indent() throws Exception {
+        if(insideBlock ){
+            int spaceCount = 1;
+            for (int i = currentIndex; code.charAt(i) == ' '; i++) {
+                advance();
+                spaceCount++;
+            }
+            if(numberOfSpacesPerLevel == 0) numberOfSpacesPerLevel = spaceCount;
+
+            if(spaceCount% numberOfSpacesPerLevel == 0){
+                int indentationLevel = spaceCount/numberOfSpacesPerLevel;
+
+                if(indentationLevel > this.indentationLevel){
+                    this.indentationLevel = indentationLevel;
+                    addToken(TokenType.INDENT, lineNumber);
+                }
+
+                if(indentationLevel < this.indentationLevel){
+                    this.indentationLevel = indentationLevel;
+                    addToken(TokenType.DEDENT, lineNumber);
+                }
+            }else{
+                throw new Exception("invalid indentation level  number of spaces must be integral multiplier of " + numberOfSpacesPerLevel);
+            }
+        }
     }
 }
+
+//                int index = currentIndex;
+//                while (code.charAt(index) == ' '){
+//                    advance();
+//                    index++;
+//                    spaceCount++;
+//                }
+
+
+// init spaces per level
+//            if(numberOfSpacesPerLevel == 0){
+//                int spaceCount = 1;
+//                for (int i = currentIndex; code.charAt(i) == ' '; i++) {
+//                    advance();
+//                    spaceCount++;
+//                }
+//                numberOfSpacesPerLevel = spaceCount;
+//            }
