@@ -19,8 +19,6 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token(" +
-                 type +
-                "," + text + ')';
+        return type + (text!= null? ": " +text : "");
     }
 }
