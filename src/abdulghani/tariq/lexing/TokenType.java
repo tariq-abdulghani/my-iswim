@@ -6,11 +6,20 @@ public enum TokenType {
     STRING("string"),
     TRUE("true"),
     FALSE("false"),
-    NONE("none"),
+    NONE("none"), // ?
+
+//    SET("set"),??
+//    STRUCT("struct"),??
+//    ARRAY("array"),??
+
+//    MAP("map"), ?? is table? isnt it?
+//    TABLE("table"), ?? why not
+
 //---------------------
     LET("let"),
     FUN("fun"),
     ID("ID"),
+    NOOP("noop"), // no operation
 
     L_PAREN("("),
     R_PAREN(")"),
@@ -26,7 +35,7 @@ public enum TokenType {
     TIMES("*"),
     SLASH("/"),
     MODULUS("%"),
-
+    DOT("."),
     ASSIGN(":="),
 
     LOGIC_AND("and"),
