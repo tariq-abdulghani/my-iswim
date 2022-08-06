@@ -28,7 +28,8 @@ public class Lexer {
 
     static {
         reservedKeyWords.put("let", TokenType.LET);
-        reservedKeyWords.put("fun", TokenType.FUN);
+        reservedKeyWords.put("func", TokenType.FUNC);
+        reservedKeyWords.put("proc", TokenType.PROC);
         reservedKeyWords.put("noop", TokenType.NOOP);
         reservedKeyWords.put("and", TokenType.LOGIC_AND);
         reservedKeyWords.put("or", TokenType.LOGIC_OR);

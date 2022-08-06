@@ -17,7 +17,8 @@ public enum TokenType {
 
 //---------------------
     LET("let"),
-    FUN("fun"),
+    FUNC("func"),
+    PROC("proc"),
     ID("ID"),
     NOOP("noop"), // no operation
 

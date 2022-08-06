@@ -1,23 +1,63 @@
-
-fun outer(x,y):
-    pass
-    fun inner(u,v):
-        pass
-        fun inner_inner(w,z):
+-- --------------------------- high level constructs --------------------------
+-- have no side effects
+func outer(x,y):
+    func inner(u,v):
+        func inner_inner(w,z):
             pass
-    ret a
+        inner_inner(u,v)
+    inner(x,y)
 
-fun foo():
-    while(cond):
-        pass
 
-fun foo2():
-    pass
+func abs(x):
+    x>0? x: -x
 
-fun outer:
-    x
-    fun inner:
-        x
-    y
+let abs(x) = x | x>0, -x | x <0
 
-asd
+-- -------------------------- mid level lang  constructs ----------------------
+-- has side effect reflects Von Neumann computer
+proc copyFile(src, dst, name):
+    try:
+        let file := open (src + name)
+        writeFile(dst+name, file)
+        close file
+    catch e:
+        print e message
+
+
+-- has side effect reflects Von Neumann computer
+proc copyFile(src, dst, name):
+    try open (src + name) as file:
+        writeFile(dst+name, file)
+    catch e:
+        print e message
+
+
+Object Person:
+    id: string
+    age:int
+    password: string and match('dddd')
+
+    init():
+        ...
+
+
+for i in 1, ..., 10:
+    print i
+
+
+// sample program looks like
+
+on TERMINATE_SIG:
+    print 'terminate signal received and shutting down'
+    PROCESS exit
+
+proc main(args*):
+    let lowLvlPump:= Pump(), highLvlPump:= Pump()
+    let lvlSensor:= LevelSensor()
+
+    every 10 seconds:
+        if lvlSensor level < minLevel:
+            lowLvlPump on
+        elif lvlSensor level > maxLevel:
+             lowLvlPump off
+             highLvlPump on

@@ -16,7 +16,7 @@ public class Main {
      }
 
     private static void  testString() throws Exception {
-        Lexer lexer = new Lexer("let xo:= \"hello world\", y:= \"coco\", z:=false");
+        Lexer lexer = new Lexer("let xo:= \"hello world\", y:= \"coco\", z:=false, func, proc");
         System.out.println(lexer.lex());
     }
      private static void  testNumbers() throws Exception {
