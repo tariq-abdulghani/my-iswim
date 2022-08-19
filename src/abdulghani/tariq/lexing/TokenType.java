@@ -18,7 +18,6 @@ public enum TokenType {
 //---------------------
     LET("let"),
     FUNC("func"),
-    PROC("proc"),
     ID("ID"),
     NOOP("noop"), // no operation
 
@@ -49,7 +48,7 @@ public enum TokenType {
     LESS("<"),
     LARGE_EQUAL(">="),
     LARGE(">"),
-    NOT_EQUAL("~="),
+    NOT_EQUAL("!="),
 
 //    control
     IF("if"),

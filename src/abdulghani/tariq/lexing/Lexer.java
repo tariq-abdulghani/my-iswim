@@ -17,34 +17,30 @@ public class Lexer {
     private boolean insideBlock = false;
 
     private List<Token> tokens = new ArrayList<>();
-    private static Map<String, TokenType > reservedKeyWords = new HashMap<>();
-//    when converting array of primitives to list using Arrays.asList() it has problematic effect
-//    to avoid that problems i use string and
-//    private char[] noneIdChars = new char[]{
-//            '.', '-', '+', '#', '&',
-//            '<', '>', ',', '%', '^',
-//            '\\', '/', '(', ')', ':'};
-    private String notInIdentifier = ".-+#&<>,%^\\*/():;=~!";
+    private static final Map<String, TokenType > reservedKeyWords = new HashMap<>();
 
+    private final String notInIdentifier = ".-+#&<>,%^\\*/():;=~!";
+
+    // reserved key words
     static {
-        reservedKeyWords.put("let", TokenType.LET);
-        reservedKeyWords.put("func", TokenType.FUNC);
-        reservedKeyWords.put("proc", TokenType.PROC);
-        reservedKeyWords.put("noop", TokenType.NOOP);
-        reservedKeyWords.put("and", TokenType.LOGIC_AND);
-        reservedKeyWords.put("or", TokenType.LOGIC_OR);
-        reservedKeyWords.put("not", TokenType.LOGIC_NOT);
-        reservedKeyWords.put("in", TokenType.IN);
+        reservedKeyWords.put(TokenType.LET.getValue(), TokenType.LET);
+        reservedKeyWords.put(TokenType.FUNC.getValue(), TokenType.FUNC);
+        reservedKeyWords.put(TokenType.NOOP.getValue(), TokenType.NOOP);
+        reservedKeyWords.put(TokenType.LOGIC_AND.getValue(), TokenType.LOGIC_AND);
+        reservedKeyWords.put( TokenType.LOGIC_OR.getValue(), TokenType.LOGIC_OR);
+        reservedKeyWords.put(TokenType.LOGIC_NOT.getValue(), TokenType.LOGIC_NOT);
+        reservedKeyWords.put(TokenType.IN.getValue(), TokenType.IN);
 
-        reservedKeyWords.put("if", TokenType.IF);
-        reservedKeyWords.put("elif", TokenType.ELIF);
-        reservedKeyWords.put("else", TokenType.ELSE);
-        reservedKeyWords.put("for", TokenType.FOR);
-        reservedKeyWords.put("while", TokenType.WHILE);
-        reservedKeyWords.put("ret", TokenType.RETURN);
+        reservedKeyWords.put(TokenType.IF.getValue(), TokenType.IF);
+        reservedKeyWords.put(TokenType.ELIF.getValue(), TokenType.ELIF);
+        reservedKeyWords.put(TokenType.ELSE.getValue(), TokenType.ELSE);
+        reservedKeyWords.put(TokenType.FOR.getValue(), TokenType.FOR);
+        reservedKeyWords.put( TokenType.WHILE.getValue(), TokenType.WHILE);
+        reservedKeyWords.put(TokenType.RETURN.getValue(), TokenType.RETURN);
 
-        reservedKeyWords.put("true", TokenType.TRUE);
-        reservedKeyWords.put("false", TokenType.FALSE);
+        reservedKeyWords.put(TokenType.TRUE.getValue(), TokenType.TRUE);
+        reservedKeyWords.put(TokenType.FALSE.getValue(), TokenType.FALSE);
+        reservedKeyWords.put(TokenType.NONE.getValue(), TokenType.NONE);
     }
 
     public Lexer(String code) {
@@ -271,3 +267,10 @@ public class Lexer {
         else throw new Exception("unterminated string error at " + lineNumber);
     }
 }
+
+//    when converting array of primitives to list using Arrays.asList() it has problematic effect
+//    to avoid that problems i use string and
+//    private char[] noneIdChars = new char[]{
+//            '.', '-', '+', '#', '&',
+//            '<', '>', ',', '%', '^',
+//            '\\', '/', '(', ')', ':'};

@@ -1,63 +1,45 @@
--- --------------------------- high level constructs --------------------------
--- have no side effects
-func outer(x,y):
-    func inner(u,v):
-        func inner_inner(w,z):
-            pass
-        inner_inner(u,v)
-    inner(x,y)
+from platform.io import {print}
+
+-- 1 function as expression
+
+let sqr(x)= x^2
+let abs(x)= {
+    x: x > 0,
+    -x: x < 0
+   }
+
+-- some special math constants e , PI,
+
+let sigmoid(x)= 1/(1+ e^(-x))
+let tanh(x) = (e^x - e^-x)/(e^x + e^-x)
+
+--  2 function as algorithm imperative way to do things
+
+func fac(n):
+    if 0 <= n <= 1 :
+        ret n
+    elf 1 < n:
+        ret n*fac(n-1)
+    else:
+        error 'negative number !!'
+
+-- 3 as lambdas
+arr.map(el->el.id)
 
 
-func abs(x):
-    x>0? x: -x
+-- functions are first class citizens and also there is an operation defined on them
+    which is composition
 
-let abs(x) = x | x>0, -x | x <0
+let f,g,h be functions then
+f*g*h(x) -> f(g(h(x)))
 
--- -------------------------- mid level lang  constructs ----------------------
--- has side effect reflects Von Neumann computer
-proc copyFile(src, dst, name):
-    try:
-        let file := open (src + name)
-        writeFile(dst+name, file)
-        close file
-    catch e:
-        print e message
+----------------------------------------------------------------
 
+-- imperative part
 
--- has side effect reflects Von Neumann computer
-proc copyFile(src, dst, name):
-    try open (src + name) as file:
-        writeFile(dst+name, file)
-    catch e:
-        print e message
-
-
-Object Person:
-    id: string
-    age:int
-    password: string and match('dddd')
-
-    init():
-        ...
-
-
-for i in 1, ..., 10:
+-- loops
+for i in [1:10]:
     print i
 
-
-// sample program looks like
-
-on TERMINATE_SIG:
-    print 'terminate signal received and shutting down'
-    PROCESS exit
-
-proc main(args*):
-    let lowLvlPump:= Pump(), highLvlPump:= Pump()
-    let lvlSensor:= LevelSensor()
-
-    every 10 seconds:
-        if lvlSensor level < minLevel:
-            lowLvlPump on
-        elif lvlSensor level > maxLevel:
-             lowLvlPump off
-             highLvlPump on
+while condition:
+    do some thing
