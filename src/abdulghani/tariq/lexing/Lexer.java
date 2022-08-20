@@ -103,10 +103,12 @@ public class Lexer {
                 if(match('\n')) {// may be a start of block
                     insideBlock = true;
                 }
-                if(match('=')){
-                    advance();
-                    addToken(TokenType.ASSIGN, lineNumber);
-                }else{
+//                if(match('=')){
+//                    advance();
+//                    addToken(TokenType.ASSIGN, lineNumber);
+//                }
+
+                else{
                     addToken(TokenType.COLON, lineNumber);
                 }
                 break;
@@ -118,7 +120,10 @@ public class Lexer {
             case '*': addToken(TokenType.TIMES, lineNumber);break;
             case '%': addToken(TokenType.MODULUS, lineNumber);break;
 
-            case '=': addToken(TokenType.EQUAL, lineNumber);break;
+            case '=':if(match('=')){
+                addToken(TokenType.EQUAL_EQUAL, lineNumber);
+                advance();
+            }else{addToken(TokenType.EQUAL, lineNumber);} break;
             case '>': if (match('=')){
                     addToken(TokenType.LARGE_EQUAL, lineNumber);
                     advance();

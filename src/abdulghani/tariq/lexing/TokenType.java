@@ -36,7 +36,8 @@ public enum TokenType {
     SLASH("/"),
     MODULUS("%"),
     DOT("."),
-    ASSIGN(":="),
+    ARROW("->"),
+//    ASSIGN(":="),
 
     LOGIC_AND("and"),
     LOGIC_OR("or"),
@@ -44,6 +45,7 @@ public enum TokenType {
     IN("in"),
 
     EQUAL("="),
+    EQUAL_EQUAL("=="),
     LESS_EQUAL("<="),
     LESS("<"),
     LARGE_EQUAL(">="),

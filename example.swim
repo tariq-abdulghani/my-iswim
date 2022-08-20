@@ -1,6 +1,13 @@
 from platform.io import {print}
 
--- 1 function as expression
+# 0 variable declarations
+# no uninitialized variables no null since null is no value
+# when you see it as a result it a symbol no value has no operations
+# defined on it
+
+let speedLimit= 90, xPosition= 9.9, yPosition= 0.234
+
+# 1 function as expression
 
 let sqr(x)= x^2
 let abs(x)= {
@@ -8,26 +15,26 @@ let abs(x)= {
     -x: x < 0
    }
 
--- some special math constants e , PI,
+# some special math constants e , PI,
 
 let sigmoid(x)= 1/(1+ e^(-x))
 let tanh(x) = (e^x - e^-x)/(e^x + e^-x)
 
---  2 function as algorithm imperative way to do things
+#  2 function as algorithm imperative way to do things
 
 func fac(n):
     if 0 <= n <= 1 :
         ret n
-    elf 1 < n:
+    elif 1 < n:
         ret n*fac(n-1)
     else:
         error 'negative number !!'
 
--- 3 as lambdas
-arr.map(el->el.id)
+# 3 as lambdas
+arr.map(el -> el.id) # use list comprehension [x| x=a.id for a in arr]
 
 
--- functions are first class citizens and also there is an operation defined on them
+# functions are first class citizens and also there is an operation defined on them
     which is composition
 
 let f,g,h be functions then
@@ -35,11 +42,33 @@ f*g*h(x) -> f(g(h(x)))
 
 ----------------------------------------------------------------
 
--- imperative part
+# imperative part
 
--- loops
+# loops
 for i in [1:10]:
     print i
 
 while condition:
     do some thing
+
+# conditional
+
+if speed == 50:
+    print "its critical"
+elif speed > 50:
+    print "it is really bad thing"
+else:
+    print "good job"
+
+
+
+label line1
+
+goto line1
+
+----------------------------------------------------------------------
+??
+#let y = f(x)
+#plot(x,y)
+
+
